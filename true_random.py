@@ -4,10 +4,13 @@ import json
 import math
 import numpy as np
 from pprint import pprint
-import urllib2
+from urllib.request import urlopen
+from urllib.error import URLError
 import sys
 from time import sleep
 
+def convert_bytes_to_int(byt):
+    return int(byt, 2)
 
 def retry(n = 3, verbose = True):
     def decorator(func):
@@ -17,7 +20,7 @@ def retry(n = 3, verbose = True):
             while result == None and count < n:
                 try:
                     result = func(*args, **kwargs)
-                except urllib2.URLError:
+                except URLError:
                     count += 1
                     if verbose:
                         print("URL error. at attempt %d of %d." % (count, n))
@@ -33,29 +36,13 @@ def get_quantum_bits(n = 32):
     url = 'https://qrng.anu.edu.au/ran_bin.php'
     bitstring = ""
     while len(bitstring) < n:
-        response = urllib2.urlopen(url)
+        response = urlopen(url)
         html = response.read()
-        bitstring += html
+        bitstring += html.decode("utf-8")
 
 
     return bitstring[:n]
 
-
-class qgen(object):
-    '''hest'''
-    def __init__(self, method = 'quantum', buffer_size = 100):
-        if method == 'quantum':
-            self.get_bits = get_quantum_bits
-        elif method == 'cosmic':
-            self.get_bits == get_cosmic_bits
-        elif method == 'all':
-            #TODO Implementer at prøve dem efter hinandne
-            pass
-        else:
-            raise ValueError("Unknown method")
-
-        self.buffer_size = buffer_size
-        self.buffer = ""
 
 def qrandint(low, high = None):
     '''Returns a random integer selected randomly between low and high.
@@ -84,9 +71,9 @@ def qrandint(low, high = None):
     return result
 
 def qchoice(a, n_elements = 1, replace = True):
-    indices = range(len(a))
+    indices = list(range(len(a)))
     result = []
-    for _ in xrange(n_elements):
+    for _ in range(n_elements):
         indptr = qrandint(len(indices))
         if replace:
             ind = indices[indptr]
@@ -96,11 +83,11 @@ def qchoice(a, n_elements = 1, replace = True):
     #
     return result
 
+def qbool():
+    x = get_quantum_bits(n=1)
+    return x == "1"
 
-print get_quantum_bits()
-candidates = "Bjarke, Niels, Siri, Freja, Emil".split(", ")
-print qchoice(candidates, 2, replace = False)
 
-# TODO skriv det om til et RandomState-objekt
+print(qbool())
 
 
