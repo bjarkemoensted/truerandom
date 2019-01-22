@@ -8,7 +8,7 @@ app.secret_key = "superdupersecretkey"
 
 @app.route('/', methods=['GET'])
 def index():
-    return "Testing..."
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
