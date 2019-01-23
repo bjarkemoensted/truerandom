@@ -56,8 +56,8 @@
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
 							<li><a href="{{ url_for('index') }}">Home</a></li>
-							<li class="menu-active"><a href="{{ url_for('coin') }}">Coin toss</a></li>
-							<li><a href="{{ url_for('dice') }}">Dice throw</a></li>
+							<li><a href="{{ url_for('coin') }}">Coin toss</a></li>
+							<li class="menu-active"><a href="{{ url_for('dice') }}">Dice throw</a></li>
 							<li><a href="{{ url_for('choice') }}">Random choice</a></li>
 						</ul>
 					</nav><!-- #nav-menu-container -->		    		
@@ -70,19 +70,31 @@
 				<div class="row fullscreen d-flex align-items-center justify-content-center">
 					<div class="banner-content col-lg-7">
 						<h1>
-							Quantum coin toss
+							Dice roll
 						</h1>
 						<br>
-						<h3>
-							<div class="volatile">Current state is {{toss}}:</div>
-						</h3>
-
+						<br>
+						<p class="pt-20 pb-20 volatile" style="font-size:200px">
+							{{roll}}
+						</p>
 
 						<p class="pt-20 pb-20">
 							<div class="loader", id="loadanim" hidden>Loading...</div>
-							<img id="state" src="{{pic}}" alt="" class="img-responsive center-fit volatile">
+							<div class="volatile">
+								{% if error != '' %}
+								    <!-- Display an error if reply is wrong -->
+								  <div class="alert alert-danger" role="alert">
+								  <strong>Error!</strong> {{error}}
+								</div>
+								{% endif %}
+								<form id="tossthingy" action="" method="post">
+									Lower bound:<br>
+									 <input type="text" name="lower" value="{{lower}}">
+									  <br>
+									  Upper bound:<br>
+									  <input type="text" name="upper" value="{{upper}}">
+							</div>
 
-							<form id="tossthingy" action="" method="post">
 								<div class="twoToneCenter">
 									<button type="submit" class="btn twoToneButton btn-ladda">
 										<span class="lnr lnr">
