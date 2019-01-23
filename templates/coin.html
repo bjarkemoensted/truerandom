@@ -3,8 +3,6 @@
 	<head>
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<!-- Favicon-->
-		<link rel="shortcut icon" href="img/fav.png">
 		<!-- Author Meta -->
 		<meta name="author" content="codepixer">
 		<!-- Meta Description -->
@@ -28,6 +26,8 @@
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+			<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/loadbtn.css') }}">
+			<link rel="stylesheet" href="{{ url_for('static', filename='css/load_animation.css') }}">
 
 			    <style>
         * {
@@ -55,8 +55,8 @@
 				      </div>
 				      <nav id="nav-menu-container">
 				        <ul class="nav-menu">
-				          <li class="menu-active"><a href="#home">Home</a></li>
-				          <li><a href="#coin">Coin toss</a></li>
+				          <li class="menu-active"><a href="{{ url_for('index') }}">Home</a></li>
+				          <li><a href="{{ url_for('coin') }}">Coin toss</a></li>
 				          <li><a href="#die">Dice throw</a></li>
 				          <li><a href="#choice">Random choice</a></li>
 				        </ul>
@@ -74,16 +74,23 @@
 							</h1>
 							<br>
 							<h3>
-								Current state is {{toss}}:
+								<div class="volatile">Current state is {{toss}}:</div>
 							</h3>
+
+
 							<p class="pt-20 pb-20">
-								<img src="{{pic}}" alt="" class="img-responsive center-fit">
+								<div class="loader", id="loadanim" hidden>Loading...</div>
+								<img id="state" src="{{pic}}" alt="" class="img-responsive center-fit volatile">
 
 								<form id="tossthingy" action="" method="post">
-								<button type="submit" class="btn btn-primary">Toss<span class="lnr lnr"></span></button>
-							</form>
-
-								
+									<div class="twoToneCenter">
+										<button type="submit" class="btn twoToneButton btn-ladda">
+											<span class="lnr lnr">
+												Toss
+											</span>
+										</button>
+									</div>
+								</form>
 							</p>
 						</div>											
 					</div>
@@ -179,7 +186,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>			
 			<script src="{{ url_for('static', filename='js/parallax.min.js') }}"></script>		
 			<script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>	
-			<script src="{{ url_for('static', filename='js/main.js') }}"></script>	
+			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+			<script src="{{ url_for('static', filename='js/loadbtn.js') }}"></script>
+			
+
 		</body>
 	</html>
 

@@ -6,7 +6,7 @@ import true_random
 img_path = os.path.join("static", "img")
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = "superdupersecretkey"
 
 
