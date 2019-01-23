@@ -3,16 +3,19 @@
 import json
 import math
 import numpy as np
+import requests
 from pprint import pprint
 from urllib.request import urlopen
 from urllib.error import URLError
 import sys
 from time import sleep
 
-def convert_bytes_to_int(byt):
-    return int(byt, 2)
+# URL for the ANU quantum random number generator API
+API = "https://qrng.anu.edu.au/API/jsonI.php"
 
 def retry(n = 3, verbose = True):
+    '''Decorator to automatically retry failed API calls.'''
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             count = 0
@@ -30,16 +33,27 @@ def retry(n = 3, verbose = True):
     return decorator
 
 
-#@retry
+def get_rand(n_bits=8):
+    '''Returns random binary string of length 8 or 16.'''
+
+    if n_bits not in (8, 16):
+        raise ValueError
+    params = {"type": "uint%d"%n_bits, "length": 1}
+    response = requests.get(API, params=params)
+    n = response.json()["data"][0]
+    res = "{0:b}".format(n).zfill(n_bits)
+
+    return res
+
+@retry()
 def get_quantum_bits(n = 32):
-    '''Returns random 32-bit integer from ANU Quantum Random Numbers Server'''
-    url = 'https://qrng.anu.edu.au/ran_bin.php'
+    '''Returns a random binary string of length n.'''
+
     bitstring = ""
     while len(bitstring) < n:
-        response = urlopen(url)
-        html = response.read()
-        bitstring += html.decode("utf-8")
-
+        n_more = 8 if n - len(bitstring) <= 8 else 16
+        fresh = get_rand(n_bits = n_more)
+        bitstring += fresh
 
     return bitstring[:n]
 
@@ -70,7 +84,10 @@ def qrandint(low, high = None):
     result = low + x
     return result
 
+
 def qchoice(a, n_elements = 1, replace = True):
+    '''Chooses random elements from input list.'''
+
     indices = list(range(len(a)))
     result = []
     for _ in range(n_elements):
@@ -83,11 +100,15 @@ def qchoice(a, n_elements = 1, replace = True):
     #
     return result
 
+
 def qbool():
+    '''Returns a random boolean.'''
     x = get_quantum_bits(n=1)
     return x == "1"
 
 
-print(qbool())
+if __name__ == '__main__':
+    x = get_quantum_bits(23)
+    print(x)
 
 
