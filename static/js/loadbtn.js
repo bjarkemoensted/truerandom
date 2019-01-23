@@ -6,6 +6,7 @@ $(function(){
 
     
     twoToneButton.addEventListener("click", function() {
+        var oldlabel = twoToneButton.innerHTML;
         twoToneButton.innerHTML = "doing stuff";
         loader.hidden = false;
         for (const volatile of volatiles) {
@@ -15,7 +16,7 @@ $(function(){
         
       setTimeout( 
             function  (){  
-                twoToneButton.innerHTML = "Again!";
+                twoToneButton.innerHTML = oldlabel;
                 loader.hidden = true;
                 for (const volatile of volatiles) {
                     volatile.hidden = false;

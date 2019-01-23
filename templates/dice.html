@@ -26,6 +26,7 @@
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+			<link rel="stylesheet" href="{{ url_for('static', filename='css/stuff.css') }}">
 			<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/loadbtn.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/load_animation.css') }}">
 
@@ -44,6 +45,8 @@
 				margin: auto;
 			}
 		</style>
+
+
 	</head>
 	<body>
 
@@ -68,45 +71,47 @@
 		<section id="home">	
 			<div class="container">
 				<div class="row fullscreen d-flex align-items-center justify-content-center">
-					<div class="banner-content col-lg-7">
+					<div class="banner-content col-lg-8">
 						<h1>
 							Dice roll
 						</h1>
 						<br>
-						<br>
-						<p class="pt-20 pb-20 volatile" style="font-size:200px">
-							{{roll}}
-						</p>
 
-						<p class="pt-20 pb-20">
+						<p class="row pt-20 pb-20">
 							<div class="loader", id="loadanim" hidden>Loading...</div>
-							<div class="volatile">
-								{% if error != '' %}
-								    <!-- Display an error if reply is wrong -->
-								  <div class="alert alert-danger" role="alert">
-								  <strong>Error!</strong> {{error}}
-								</div>
-								{% endif %}
-								<form id="tossthingy" action="" method="post">
-									Lower bound:<br>
-									 <input type="text" name="lower" value="{{lower}}">
-									  <br>
-									  Upper bound:<br>
-									  <input type="text" name="upper" value="{{upper}}">
+							<p class="boxThing volatile">
+								{{roll}}
+							</p>
+							{% if error != '' %}
+							<!-- Display an error if reply is wrong -->
+							<div class="alert alert-danger" role="alert">
+								<strong>Error!</strong> {{error}}
 							</div>
+							{% endif %}
+							<form id="tossthingy" action="" method="post">
+								Lower bound:<br>
+								<input type="text" name="lower" value="{{lower}}">
+								<br>
+								Upper bound:<br>
+								<input type="text" name="upper" value="{{upper}}">
 
 								<div class="twoToneCenter">
 									<button type="submit" class="btn twoToneButton btn-ladda">
 										<span class="lnr lnr">
-											Toss
+											Roll
 										</span>
 									</button>
 								</div>
 							</form>
 						</p>
-					</div>											
+						
+					</div>
+
 				</div>
 			</div>
+
+			
+
 		</section>
 
 
