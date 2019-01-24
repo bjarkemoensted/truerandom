@@ -43,14 +43,19 @@ def dice():
         try:
             low = int(request.values.get('lower'))
             high = int(request.values.get('upper'))
-            n = true_random.qrandint(low=low, high=high)
             lower = str(low)
             upper = str(high)
-            roll = str(n)
         except ValueError:
             error = "Couldn't parse that!"
             roll = ""
         #
+    if not error:
+        try:
+            n = true_random.randint(low=low, high=high)
+            roll = str(n)
+        except:
+            error = "Quantum stream appears to be down. Retry later."
+            roll = "n/a"
     else:
         n = true_random.randint(low=int(lower), high=int(upper))
         roll = str(n)
