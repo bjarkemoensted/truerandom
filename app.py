@@ -61,16 +61,22 @@ def dice():
 
 def make_choicelist(picks):
     template = '''
-    <p class="boxThing volatile"%s>
-								%s
-							</p>'''
-    if len(picks) == 1:
-        return template % ("", picks[0])
-    else:
-        font_size = 42
-        style = ' style="font-size:%dpx"' % font_size
-        formatted = [p+", " for p in picks[:-1]] + [picks[-1]]
-        return "\n<br>\n".join(template%(style, p) for p in formatted)
+        <p class="boxThing volatile">
+				%s
+		  </p>'''
+
+    font_size = 42
+    diva = '<div>'
+    if len(picks) != 1:
+        diva = '<div class="simplePad" style="font-size:%dpx">' % font_size
+
+    divb = '</div>'
+    formatted = [p+", " for p in picks[:-1]] + [picks[-1]]
+    html = "\n".join((diva + s + divb) for s in formatted)
+    res = template % html
+
+    return res
+
 
 
 

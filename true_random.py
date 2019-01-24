@@ -120,6 +120,6 @@ def qbool():
 
 if __name__ == '__main__':
     x = get_quantum_bits(23)
-    print(x)
+    print(x, qbool())
 
 
