@@ -79,9 +79,11 @@
 
 						<p class="row pt-20 pb-20">
 							<div class="loader", id="loadanim" hidden>Loading...</div>
-							<p class="boxThing volatile">
-								{{roll}}
-							</p>
+							<div>
+								<p class="boxThing volatile">
+									{{roll}}
+								</p>
+							</div>
 							{% if error != '' %}
 							<!-- Display an error if reply is wrong -->
 							<div class="alert alert-danger" role="alert">
@@ -89,11 +91,10 @@
 							</div>
 							{% endif %}
 							<form id="tossthingy" action="" method="post">
-								Lower bound:<br>
-								<input type="text" name="lower" value="{{lower}}" autocomplete="off">
-								<br>
-								Upper bound:<br>
-								<input type="text" name="upper" value="{{upper}}" autocomplete="off">
+								<div>Lower bound:</div>
+								<div><input type="text" name="lower" value="{{lower}}" autocomplete="off"></div>
+								<div>Upper bound:</div>
+								<div><input type="text" name="upper" value="{{upper}}" autocomplete="off"></div>
 
 								<div class="twoToneCenter">
 									<button type="submit" class="btn twoToneButton btn-ladda">
