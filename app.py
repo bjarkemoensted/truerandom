@@ -8,7 +8,7 @@ img_path = os.path.join("static", "img")
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = "superdupersecretkey"
-
+nostream = "Quantum stream appears to be down. Retry later."
 
 @app.route('/', methods=['GET'])
 def index():
@@ -18,19 +18,25 @@ def index():
 def coin():
     toss = None
     pic = None
+    error = ''
     if request.method == 'GET':
         toss = "superposition"
         pic = os.path.join(img_path, "superpos.jpg")
     else:
-        tossisheads = true_random.qbool()
-        if tossisheads:
-            toss = "heads"
-            pic = os.path.join(img_path, "qheads.jpg")
-        else:
-            toss = "tails"
-            pic = os.path.join(img_path, "qtails.jpg")
+        try:
+            tossisheads = true_random.qbool()
+            if tossisheads:
+                toss = "heads"
+                pic = os.path.join(img_path, "qheads.jpg")
+            else:
+                toss = "tails"
+                pic = os.path.join(img_path, "qtails.jpg")
+        except:
+            error = nostream
+            toss = "n/a"
 
-    return render_template("coin.html", toss=toss, pic=pic)
+
+    return render_template("coin.html", toss=toss, pic=pic, error=error)
 
 
 @app.route('/dice', methods=['GET', 'POST'])
@@ -54,7 +60,7 @@ def dice():
             n = true_random.randint(low=low, high=high)
             roll = str(n)
         except:
-            error = "Quantum stream appears to be down. Retry later."
+            error = nostream
             roll = "n/a"
     else:
         n = true_random.randint(low=int(lower), high=int(upper))

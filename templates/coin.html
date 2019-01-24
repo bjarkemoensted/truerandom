@@ -81,6 +81,12 @@
 						<p class="pt-20 pb-20">
 							<div class="loader", id="loadanim" hidden>Loading...</div>
 							<img id="state" src="{{pic}}" alt="" class="img-responsive center-fit volatile">
+							{% if error != '' %}
+							<!-- Display an error if reply is wrong -->
+							<div class="alert alert-danger" role="alert">
+								<strong>Error!</strong> {{error}}
+							</div>
+							{% endif %}
 
 							<form id="tossthingy" action="" method="post">
 								<div class="twoToneCenter">
