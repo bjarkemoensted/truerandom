@@ -58,47 +58,58 @@ def get_quantum_bits(n = 32):
     return bitstring[:n]
 
 
-def qrandint(low, high = None):
+def randint(low, high = None, size=None):
     '''Returns a random integer selected randomly between low and high.
     if high == None, interval is 0 to low.'''
 
-    if high == None:
-        high = low
-        low = 0
+    n_get = 1 if size is None else size
+    result = []
 
-    # Number of possible intergers we draw from
-    span = high - low
-    if span == 1:
-        return low
+    while len(result) < n_get:
+        if high == None:
+            high = low
+            low = 0
 
-    # Number of bits we need
-    n_bits = int(math.ceil(math.log(span, 2)))
+        # Number of possible intergers we draw from
+        span = high - low
+        if span == 1:
+            return low
 
-    # Keep redrawing if we draw outside the desired interval
-    x = float('inf')
-    while x >= span:
-        random_bits = get_quantum_bits(n_bits)
-        x = int(random_bits, 2)
+        # Number of bits we need
+        n_bits = int(math.ceil(math.log(span, 2)))
 
-    # Done. Add to the lower limit and return
-    result = low + x
-    return result
+        # Keep redrawing if we draw outside the desired interval
+        x = float('inf')
+        while x >= span:
+            random_bits = get_quantum_bits(n_bits)
+            x = int(random_bits, 2)
+
+        # Done. Add to the lower limit and return
+        result.append(low + x)
+
+    if size is None:
+        return result[0]
+    else:
+        return result
 
 
-def qchoice(a, n_elements = 1, replace = True):
+def choice(a, size=None, replace=True):
     '''Chooses random elements from input list.'''
 
     indices = list(range(len(a)))
     result = []
-    for _ in range(n_elements):
-        indptr = qrandint(len(indices))
+    for _ in range(size):
+        indptr = randint(len(indices))
         if replace:
             ind = indices[indptr]
         else:
             ind = indices.pop(indptr)
         result.append(a[ind])
     #
-    return result
+    if size is None:
+        return result[0]
+    else:
+        return result
 
 
 def qbool():

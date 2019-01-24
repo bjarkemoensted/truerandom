@@ -52,16 +52,49 @@ def dice():
             roll = ""
         #
     else:
-        n = true_random.qrandint(low=int(lower), high=int(upper))
+        n = true_random.randint(low=int(lower), high=int(upper))
         roll = str(n)
 
     return render_template("dice.html", roll=roll, error=error,
                            lower=lower, upper=upper)
 
 
-@app.route('/choice', methods=['GET'])
+def make_choicelist(picks):
+    template = '''
+    <p class="boxThing volatile"%s>
+								%s
+							</p>'''
+    if len(picks) == 1:
+        return template % ("", picks[0])
+    else:
+        font_size = 42
+        style = ' style="font-size:%dpx"' % font_size
+        formatted = [p+", " for p in picks[:-1]] + [picks[-1]]
+        return "\n<br>\n".join(template%(style, p) for p in formatted)
+
+
+
+@app.route('/choice', methods=['GET', 'POST'])
 def choice():
-    return render_template("choice.html")
+    error = ''
+    pick = ''
+    size = 1
+    candidates_string = ''
+
+    if request.method == 'POST':
+        try:
+            raw = request.values.get("list")
+            size = int(request.values.get("size"))
+            arr = [s.strip() for s in raw.strip().split(",") if s.strip()]
+            candidates_string = ", ".join(sorted(arr))
+            picks = true_random.choice(a=arr, size=size, replace=False)
+
+            pick = make_choicelist(picks)
+        except ValueError:
+            error = "Parsing error. Make sure to enter a comma-separated list."
+
+    return render_template("choice.html", error=error, size=str(size),
+                           candidates_string=candidates_string, pick=pick)
 
 
 if __name__ == '__main__':
