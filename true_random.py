@@ -27,7 +27,7 @@ def retry(n = 3, verbose = True):
                     count += 1
                     if verbose:
                         print("URL error. at attempt %d of %d." % (count, n))
-                    sleep(5)
+                    sleep(3)
             return result
         return wrapper
     return decorator
@@ -45,7 +45,7 @@ def get_rand(n_bits=8):
 
     return res
 
-@retry()
+#@retry(n=1)
 def get_quantum_bits(n = 32):
     '''Returns a random binary string of length n.'''
 

@@ -18,13 +18,13 @@ $(function(){
             function  (){  
                 twoToneButton.innerHTML = oldlabel;
                 loader.hidden = true;
-                //for (const volatile of volatiles) {
-                //    volatile.hidden = false;
-                //}
+                for (const volatile of volatiles) {
+                    volatile.hidden = false;
+                }
                 
 
                 
-            }, 6000);
+            }, 12000);
     }, false);
     
 });
